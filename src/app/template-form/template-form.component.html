@@ -1,0 +1,30 @@
+<form class="form" #createForm="ngForm">
+  <div class="form-group">
+    <label for="name">Course Name</label>
+    <input type="text" class="form-control" name="name" ngModel #name="ngModel" required minlength="5" />
+    <div class="alert alert-danger" *ngIf="name.touched && name.errors">
+        <div *ngIf="name.errors?.['required']">A név megadása kötelező!</div>
+        <div *ngIf="name.value.length < name.errors?.['minlength'].requiredLength">Minimum {{name.errors['minlength'].requiredLength}} karakter!</div>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="category">Category</label>
+    <select name="category" class="form-control" ngModel #category="ngModel" required>
+        <option value="">Select one</option>
+      <option *ngFor="let cat of categoryList" [value]="cat.id">
+        {{ cat.name }}
+      </option>
+    </select>
+    <div class="alert alert-danger" *ngIf="category.touched && category.errors">
+      <div *ngIf="category.errors?.['required']">A kategória megadása kötelező!</div>
+  </div>
+  </div>
+  <div class="form-check">
+    <input class="form-check-input" type="checkbox" name="money" id="money" ngModel #money="ngModel">
+    <label class="form-check-label" for="money">
+      30-day money-back guarantee
+    </label>
+  </div>
+  <div>{{createForm.value | json}}</div>
+  <button class="btn btn-primary" [disabled]="!createForm.valid">Create</button>
+</form>
